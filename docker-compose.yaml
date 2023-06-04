@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  mysql_archery:
+    image: mysql:latest
+    container_name: archery_db
+    restart: always
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    volumes:
+      - archery_data:/var/lib/mysql
+      - .:/data
+    networks:
+      - archery_network
+    environment:
+      - MYSQL_DATABASE=archery
+      - MYSQL_USER=user123
+      - MYSQL_PASSWORD=password123
+      - MYSQL_ROOT_PASSWORD=rootpassword123
+  archery_be:
+    image: vietdung13x3/archery-be:latest
+    container_name: archery-be
+    restart: on-failure
+    depends_on:
+      - mysql_archery
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    networks:
+      - archery_network
+  archery_fe:
+    image: vietdung13x3/archery-fe:latest
+    container_name: archery_fe
+    ports:
+      - "200:200"
+    expose:
+      - 200
+    
+volumes:
+  archery_data:
+networks:
+  archery_network:
+    driver: bridge
