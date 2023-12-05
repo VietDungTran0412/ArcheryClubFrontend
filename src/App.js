@@ -10,6 +10,7 @@ import Recorder from './scenes/recorder/Recorder';
 import ScoreRecorder from './scenes/recorder/ScoreRecorder';
 import Result from './scenes/result/Result';
 import Leaderboard from './scenes/leaderboard/Leaderboard';
+import MyComponents from './components/MyComponents';
 
 const ScrollToTop = () => {
   const {pathname} = useLocation();
@@ -21,8 +22,13 @@ const ScrollToTop = () => {
 
 function App() {
   const [api, contextHolder] = useNotification();
+  const data = {
+    apple:1,
+    banana: 2
+  }
   return (
     <div className="App">
+      <MyComponents {...data}/>
       <BrowserRouter>
         {contextHolder}
         <ScrollToTop/>
